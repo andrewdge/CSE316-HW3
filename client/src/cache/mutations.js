@@ -74,6 +74,19 @@ export const REORDER_ITEMS = gql`
 	}
 `;
 
+export const REORDER_ITEMS_BY_TASK = gql`
+	mutation ReorderItemsByTask($_id: String!, $isAscending: Boolean!) {
+		reorderItemsByTask(_id: $_id, isAscending: $isAscending) {
+			_id
+			id
+			description
+			due_date
+			assigned_to
+			completed
+		}
+	}
+`;
+
 export const ADD_TODOLIST = gql`
 	mutation AddTodolist($todolist: TodoInput!) {
 		addTodolist(todolist: $todolist) 

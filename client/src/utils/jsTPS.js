@@ -40,11 +40,29 @@ export class ReorderItems_Transaction extends jsTPS_Transaction {
     }
 
     async undoTransaction() {
-		const {data} = await this.updateFunction({ variables: { itemId: this.itemID, _id: this.listID, direction: this.revDir }});
+		const { data } = await this.updateFunction({ variables: { itemId: this.itemID, _id: this.listID, direction: this.revDir }});
 		return data;
 
     }
-    
+}
+
+export class ReorderItemsByTask_Transaction extends jsTPS_Transaction {
+    constructor(listID, isAscending, callback) {
+        super();
+        this.listID = listID;
+		this.isAscending = isAscending;
+		this.updateFunction = callback;
+	}
+
+    async doTransaction() {
+		const { data } = await this.updateFunction({ variables: { _id: this.listID, isAscending: this.isAscending }});
+		return data;
+    }
+
+    async undoTransaction() {
+		const { data } = await this.updateFunction({ variables: { _id: this.listID, isAscending: !this.isAscending }});
+		return data;
+    }
 }
 
 export class EditItem_Transaction extends jsTPS_Transaction {

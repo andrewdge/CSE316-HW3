@@ -16,19 +16,24 @@ module.exports = {
 			if(!_id) { return([])};
 			const todolists = await Todolist.find({owner: _id});
 			if(todolists) return (todolists);
-
 		},
 		/** 
 		 	@param 	 {object} args - a todolist id
 			@returns {object} a todolist on success and an empty object on failure
 		**/
-		getTodoById: async (_, args) => {
+		getTodoByObjectId: async (_, args) => {
 			const { _id } = args;
 			const objectId = new ObjectId(_id);
 			const todolist = await Todolist.findOne({_id: objectId});
 			if(todolist) return todolist;
 			else return ({});
 		},
+		getTodoById: async (_, args) => {
+			const { id } = args;
+			const todolist = await Todolist.findOne({id: id});
+			if(todolist) return todolist;
+			else return ({});
+		}
 	},
 	Mutation: {
 		/** 
@@ -162,7 +167,42 @@ module.exports = {
 			// return old ordering if reorder was unsuccessful
 			listItems = found.items;
 			return (found.items);
+		},
 
+
+		reorderItemsByTask: async (_, args) => {
+			const { _id, isAscending } = args;
+			const listId = new ObjectId(_id);
+			const activeList = await Todolist.findOne({_id: listId});
+			let listItems = activeList.items;
+			
+			listItems.sort(function(item1, item2) {
+				let negate = -1;
+				if (!isAscending) {
+					negate = 1;
+				}
+				let value1 = item1["description"].toLowerCase();
+				let value2 = item2["description"].toLowerCase();
+				if (value1 < value2) {
+					return -1 * negate;
+				}
+				else if (value1 === value2) {
+					if (item1["description"] < item2["description"]) {
+						return -1 * negate;
+					} else if (item1["description"] < item2["description"]) {
+						return 0;
+					} else {
+						return 1 * negate;
+					}
+				}
+				else {
+					return 1 * negate;
+				}
+			});
+			const updated = await Todolist.updateOne({_id: listId}, { items: listItems });
+			if (updated) return (listItems);
+			listItems = activeList.items;
+			return (activeList.items);
 		}
 
 	}

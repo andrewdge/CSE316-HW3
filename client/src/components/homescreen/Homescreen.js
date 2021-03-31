@@ -14,6 +14,7 @@ import { WLayout, WLHeader, WLMain, WLSide } from 'wt-frontend';
 import { UpdateListField_Transaction, 
 	UpdateListItems_Transaction, 
 	ReorderItems_Transaction, 
+	ReorderItemsByTask_Transaction,
 	EditItem_Transaction } 				from '../../utils/jsTPS';
 import WInput from 'wt-frontend/build/components/winput/WInput';
 
@@ -26,6 +27,7 @@ const Homescreen = (props) => {
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
 
+	const [ReorderItemsByTask]      = useMutation(mutations.REORDER_ITEMS_BY_TASK);
 	const [ReorderTodoItems] 		= useMutation(mutations.REORDER_ITEMS);
 	const [UpdateTodoItemField] 	= useMutation(mutations.UPDATE_ITEM_FIELD);
 	const [UpdateTodolistField] 	= useMutation(mutations.UPDATE_TODOLIST_FIELD);
@@ -73,7 +75,7 @@ const Homescreen = (props) => {
 	const addItem = async () => {
 		let list = activeList;
 		const items = list.items;
-		const lastID = items.length >= 1 ? items[items.length - 1].id + 1 : 0;
+		const lastID = items.length >= 1 ? items.length : 0;
 		const newItem = {
 			_id: '',
 			id: lastID,
@@ -126,9 +128,16 @@ const Homescreen = (props) => {
 
 	};
 
+	const reorderByTask = async (isAscending) => {
+		let listID = activeList._id;
+		let transaction = new ReorderItemsByTask_Transaction(listID, isAscending, ReorderItemsByTask);
+		props.tps.addTransaction(transaction);
+		tpsRedo();
+	};
+
 	const createNewList = async () => {
 		const length = todolists.length
-		const id = length >= 1 ? todolists[length - 1].id + Math.floor((Math.random() * 100) + 1) : 1;
+		const id = length >= 1 ? todolists[length - 1].id + 1 : 1;
 		let list = {
 			_id: '',
 			id: id,
@@ -221,8 +230,8 @@ const Homescreen = (props) => {
 					activeList ? 
 							<div className="container-secondary">
 								<MainContents
-									addItem={addItem} deleteItem={deleteItem}
-									editItem={editItem} reorderItem={reorderItem}
+									addItem={addItem} deleteItem={deleteItem} editItem={editItem} reorderItem={reorderItem}
+									reorderByTask={reorderByTask}
 									setShowDelete={setShowDelete}
 									activeList={activeList} setActiveList={setActiveList}
 								/>

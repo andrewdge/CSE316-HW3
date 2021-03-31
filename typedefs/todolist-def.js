@@ -19,7 +19,8 @@ const typeDefs = gql `
 	}
 	extend type Query {
 		getAllTodos: [Todolist]
-		getTodoById(_id: String!): Todolist 
+		getTodoByObjectId(_id: String!): Todolist 
+		getTodoById(id: Int!): Todolist
 	}
 	extend type Mutation {
 		addItem(item: ItemInput!, _id: String!): String
@@ -29,6 +30,7 @@ const typeDefs = gql `
 		updateTodolistField(_id: String!, field: String!, value: String!): String
 		updateItemField(itemId: String!, _id: String!, field: String!, value: String!, flag: Int!): [Item]
 		reorderItems(itemId: String!, _id: String!, direction: Int!): [Item]
+		reorderItemsByTask(_id: String!, isAscending: Boolean!): [Item]
 	}
 	input FieldInput {
 		_id: String
