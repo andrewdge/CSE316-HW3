@@ -14,7 +14,7 @@ import { WLayout, WLHeader, WLMain, WLSide } from 'wt-frontend';
 import { UpdateListField_Transaction, 
 	UpdateListItems_Transaction, 
 	ReorderItems_Transaction, 
-	ReorderItemsByTask_Transaction,
+	ReorderItemsByCriteria_Transaction,
 	EditItem_Transaction } 				from '../../utils/jsTPS';
 import WInput from 'wt-frontend/build/components/winput/WInput';
 
@@ -27,6 +27,8 @@ const Homescreen = (props) => {
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
 
+	const [ReorderItemsByStatus]    = useMutation(mutations.REORDER_ITEMS_BY_STATUS);
+	const [ReorderItemsByDueDate]   = useMutation(mutations.REORDER_ITEMS_BY_DUE_DATE);
 	const [ReorderItemsByTask]      = useMutation(mutations.REORDER_ITEMS_BY_TASK);
 	const [ReorderTodoItems] 		= useMutation(mutations.REORDER_ITEMS);
 	const [UpdateTodoItemField] 	= useMutation(mutations.UPDATE_ITEM_FIELD);
@@ -130,10 +132,24 @@ const Homescreen = (props) => {
 
 	const reorderByTask = async (isAscending) => {
 		let listID = activeList._id;
-		let transaction = new ReorderItemsByTask_Transaction(listID, isAscending, ReorderItemsByTask);
+		let transaction = new ReorderItemsByCriteria_Transaction(listID, isAscending, ReorderItemsByTask);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
 	};
+
+	const reorderByDueDate = async (isAscending) => {
+		let listID = activeList._id;
+		let transaction = new ReorderItemsByCriteria_Transaction(listID, isAscending, ReorderItemsByDueDate);
+		props.tps.addTransaction(transaction);
+		tpsRedo(); 
+	}
+
+	const reorderByStatus = async (isAscending) => {
+		let listID = activeList._id;
+		let transaction = new ReorderItemsByCriteria_Transaction(listID, isAscending, ReorderItemsByStatus);
+		props.tps.addTransaction(transaction);
+		tpsRedo(); 
+	}
 
 	const createNewList = async () => {
 		const length = todolists.length
@@ -231,7 +247,7 @@ const Homescreen = (props) => {
 							<div className="container-secondary">
 								<MainContents
 									addItem={addItem} deleteItem={deleteItem} editItem={editItem} reorderItem={reorderItem}
-									reorderByTask={reorderByTask}
+									reorderByTask={reorderByTask} reorderByDueDate={reorderByDueDate} reorderByStatus={reorderByStatus}
 									setShowDelete={setShowDelete}
 									activeList={activeList} setActiveList={setActiveList}
 								/>

@@ -4,7 +4,9 @@ import { WButton, WRow, WCol } from 'wt-frontend';
 
 const TableHeader = (props) => {
 
-    const [taskAscending, taskToggleAscending] = useState(true);
+    const [taskAscending, taskToggleAscending] = useState(false);
+    const [dueDateAscending, dueDateToggleAscending] = useState(false);
+    const [statusAscending, statusToggleAscending] = useState(false);
 
     const buttonStyle = props.disabled ? ' table-header-button-disabled ' : 'table-header-button ';
     const headerStyle = props.disabled ? ' table-header-section-disabled ' : ' table-header-section ';
@@ -16,16 +18,26 @@ const TableHeader = (props) => {
         props.reorderByTask(taskAscending);
         taskToggleAscending(!taskAscending);
     }
-    // 
+
+    const dueDateReorder = () => {
+        props.reorderByDueDate(dueDateAscending);
+        dueDateToggleAscending(!dueDateAscending);
+    }
+
+    const statusReorder = () => {
+        props.reorderByStatus(statusAscending);
+        statusToggleAscending(!statusAscending);
+    }
+    
     let task = <WCol size="4">
                   <WButton onClick={props.disabled ? clickDisabled : taskReorder} className={`${headerStyle}`} wType="texted" >Task</WButton>
                </WCol>;
     let dueDate = <WCol size="3">
-                    <WButton /*onClick={dueDateReorder}*/ className={`${headerStyle}`} wType="texted">Due Date</WButton>
+                    <WButton onClick={dueDateReorder} className={`${headerStyle}`} wType="texted">Due Date</WButton>
                   </WCol>;
 
     let status = <WCol size="2">
-                   <WButton /*onClick={statusReorder}*/ className={`${headerStyle}`} wType="texted" >Status</WButton>
+                   <WButton onClick={statusReorder} className={`${headerStyle}`} wType="texted" >Status</WButton>
                  </WCol>;
     
     return (

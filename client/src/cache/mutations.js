@@ -87,6 +87,32 @@ export const REORDER_ITEMS_BY_TASK = gql`
 	}
 `;
 
+export const REORDER_ITEMS_BY_DUE_DATE = gql`
+	mutation ReorderItemsByDueDate($_id: String!, $isAscending: Boolean!) {
+		reorderItemsByDueDate(_id: $_id, isAscending: $isAscending) {
+			_id
+			id
+			description
+			due_date
+			assigned_to
+			completed
+		}
+	}
+`;
+
+export const REORDER_ITEMS_BY_STATUS = gql`
+	mutation ReorderItemsByStatus($_id: String!, $isAscending: Boolean!) {
+		reorderItemsByStatus(_id: $_id, isAscending: $isAscending) {
+			_id
+			id
+			description
+			due_date
+			assigned_to
+			completed
+		}
+	}
+`;
+
 export const ADD_TODOLIST = gql`
 	mutation AddTodolist($todolist: TodoInput!) {
 		addTodolist(todolist: $todolist) 

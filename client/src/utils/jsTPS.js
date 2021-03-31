@@ -46,7 +46,7 @@ export class ReorderItems_Transaction extends jsTPS_Transaction {
     }
 }
 
-export class ReorderItemsByTask_Transaction extends jsTPS_Transaction {
+export class ReorderItemsByCriteria_Transaction extends jsTPS_Transaction {
     constructor(listID, isAscending, callback) {
         super();
         this.listID = listID;
@@ -64,6 +64,7 @@ export class ReorderItemsByTask_Transaction extends jsTPS_Transaction {
 		return data;
     }
 }
+
 
 export class EditItem_Transaction extends jsTPS_Transaction {
 	constructor(listID, itemID, field, prev, update, flag, callback) {
