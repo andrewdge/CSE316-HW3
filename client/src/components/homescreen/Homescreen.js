@@ -42,7 +42,10 @@ const Homescreen = (props) => {
 	const { loading, error, data, refetch } = useQuery(GET_DB_TODOS);
 	if(loading) { console.log(loading, 'loading'); }
 	if(error) { console.log(error, 'error'); }
-	if(data) { todolists = data.getAllTodos; }
+	if(data) { 
+		todolists = data.getAllTodos; 
+	}
+
 
 	const auth = props.user === null ? false : true;
 

@@ -1,6 +1,6 @@
 const { gql } = require('apollo-server');
 
-
+//getSortedTodo: Todolist
 const typeDefs = gql `
 	type Todolist {
 		_id: String!

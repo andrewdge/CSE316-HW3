@@ -4,9 +4,9 @@ import { WButton, WRow, WCol } from 'wt-frontend';
 
 const TableHeader = (props) => {
 
-    const [taskAscending, taskToggleAscending] = useState(false);
-    const [dueDateAscending, dueDateToggleAscending] = useState(false);
-    const [statusAscending, statusToggleAscending] = useState(false);
+    const [isTaskAscending, taskToggleAscending] = useState(true);
+    const [isDueDateAscending, dueDateToggleAscending] = useState(true);
+    const [isStatusAscending, statusToggleAscending] = useState(true);
 
     const buttonStyle = props.disabled ? ' table-header-button-disabled ' : 'table-header-button ';
     const headerStyle = props.disabled ? ' table-header-section-disabled ' : ' table-header-section ';
@@ -14,19 +14,18 @@ const TableHeader = (props) => {
 
     
     const taskReorder = () => {
-        console.log(taskAscending);
-        props.reorderByTask(taskAscending);
-        taskToggleAscending(!taskAscending);
+        props.reorderByTask(isTaskAscending);
+        taskToggleAscending(!isTaskAscending);
     }
 
     const dueDateReorder = () => {
-        props.reorderByDueDate(dueDateAscending);
-        dueDateToggleAscending(!dueDateAscending);
+        props.reorderByDueDate(isDueDateAscending);
+        dueDateToggleAscending(!isDueDateAscending);
     }
 
     const statusReorder = () => {
-        props.reorderByStatus(statusAscending);
-        statusToggleAscending(!statusAscending);
+        props.reorderByStatus(isStatusAscending);
+        statusToggleAscending(!isStatusAscending);
     }
     
     let task = <WCol size="4">
