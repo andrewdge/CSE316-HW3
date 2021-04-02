@@ -65,8 +65,8 @@ module.exports = {
 			const { id, name, owner, items } = todolist;
 			const newList = new Todolist({
 				_id: objectId,
-				id: id,
 				name: name,
+				id: id,
 				owner: owner,
 				items: items
 			});

@@ -7,12 +7,12 @@ const todolistSchema = new Schema(
 			type: ObjectId,
 			required: true
 		},
-		id: {
-			type: Number,
-			required: true
-		},
 		name: {
 			type: String,
+			required: true
+		},
+		id: {
+			type: Number,
 			required: true
 		},
 		owner: {

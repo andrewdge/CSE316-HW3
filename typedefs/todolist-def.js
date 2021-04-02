@@ -4,9 +4,10 @@ const { gql } = require('apollo-server');
 const typeDefs = gql `
 	type Todolist {
 		_id: String!
-		id: Int!
 		name: String!
+		id: Int!
 		owner: String!
+		isSelected: Boolean!
 		items: [Item]
 	}
 	type Item {
@@ -41,8 +42,8 @@ const typeDefs = gql `
 	}
 	input TodoInput {
 		_id: String
-		id: Int
 		name: String
+		id: Int
 		owner: String
 		items: [ItemInput]
 	}
