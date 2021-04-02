@@ -37,6 +37,7 @@ const Homescreen = (props) => {
 	const [DeleteTodoItem] 			= useMutation(mutations.DELETE_ITEM);
 	const [AddTodolist] 			= useMutation(mutations.ADD_TODOLIST);
 	const [AddTodoItem] 			= useMutation(mutations.ADD_ITEM);
+	const [ChangeIsSelected]         = useMutation(mutations.CHANGE_IS_SELECTED);
 
 	const { loading, error, data, refetch } = useQuery(GET_DB_TODOS);
 	// if(loading) { console.log(loading, 'loading'); }
@@ -152,18 +153,23 @@ const Homescreen = (props) => {
 		tpsRedo(); 
 	}
 
-	const createNewList = async () => {
+	const createNewList = async (activeId) => {
 		const length = todolists.length
 		const id = length >= 1 ? todolists[length - 1].id + 1 : 1;
 		let list = {
 			_id: '',
 			id: id,
 			name: 'Untitled',
+			isSelected: false,
 			owner: props.user._id,
 			items: [],
 		}
-		const { data } = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }] });
-		setActiveList(list)
+		const { objectId } = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }] });
+		//setActiveList(list)
+		// const { d2 } = await ChangeIsSelected({ variables: { _id: list._id, isActive: list.isSelected } });
+		console.log("hi");
+		console.log(objectId);
+		handleSetActive(objectId, activeId);
 	};
 
 	const deleteList = async (_id) => {
@@ -179,11 +185,26 @@ const Homescreen = (props) => {
 
 	};
 
-	const handleSetActive = (id) => {
+	const handleSetActive = async (_id, activeId) => {
+		// console.log(activeId);
+		// console.log(_id);
 		props.tps.clearAllTransactions();
-		const todo = todolists.find(todo => todo.id === id || todo._id === id);
+		const todo = todolists.find(todo => todo._id === _id);
+		const isTrue = true;
+		if (activeId !== undefined) {
+			await ChangeIsSelected({ variables: { _id: activeId, isActive: !isTrue }});
+		}
+		await ChangeIsSelected({ variables: { _id: _id, isActive: isTrue }, refetchQueries: [{ query: GET_DB_TODOS}]  });
+		
+
 		setActiveList(todo);
 	};
+
+	const closeActiveList = async (activeId) => {
+		props.tps.clearAllTransactions();
+		// const { data } = await ChangeIsSelected({ variables: { _id: activeId, isActive: false}})
+		setActiveList({});
+	}
 
 	
 	/*
@@ -233,7 +254,7 @@ const Homescreen = (props) => {
 					{
 						activeList ?
 							<SidebarContents
-								todolists={todolists} activeid={activeList.id} auth={auth}
+								todolists={todolists} activeid={activeList._id} auth={auth}
 								handleSetActive={handleSetActive} createNewList={createNewList}
 								undo={tpsUndo} redo={tpsRedo}
 								updateListField={updateListField}
@@ -251,7 +272,7 @@ const Homescreen = (props) => {
 									addItem={addItem} deleteItem={deleteItem} editItem={editItem} reorderItem={reorderItem}
 									reorderByTask={reorderByTask} reorderByDueDate={reorderByDueDate} reorderByStatus={reorderByStatus}
 									setShowDelete={setShowDelete}
-									activeList={activeList} setActiveList={setActiveList}
+									activeList={activeList} closeActiveList={closeActiveList}
 								/>
 							</div>
 						:

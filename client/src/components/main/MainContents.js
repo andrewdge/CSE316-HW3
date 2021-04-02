@@ -7,7 +7,7 @@ const MainContents = (props) => {
         <div className='table ' >
             <TableHeader
                 disabled={!props.activeList._id} addItem={props.addItem} 
-                setShowDelete={props.setShowDelete} setActiveList={props.setActiveList}
+                setShowDelete={props.setShowDelete} closeActiveList={props.closeActiveList} activeList={props.activeList}
                 reorderByTask={props.reorderByTask} reorderByDueDate={props.reorderByDueDate} reorderByStatus={props.reorderByStatus}
             />
             <TableContents
