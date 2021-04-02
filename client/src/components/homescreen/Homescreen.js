@@ -42,7 +42,7 @@ const Homescreen = (props) => {
 	// if(loading) { console.log(loading, 'loading'); }
 	if(error) { console.log(error, 'error'); }
 	if(data) { 
-		todolists = data.getAllTodos; 
+		todolists = data.getAllTodos;
 	}
 
 	const auth = props.user === null ? false : true;
@@ -182,10 +182,6 @@ const Homescreen = (props) => {
 	const handleSetActive = (id) => {
 		props.tps.clearAllTransactions();
 		const todo = todolists.find(todo => todo.id === id || todo._id === id);
-		const excluded = todolists.filter(todo => todo.id !== id);
-		excluded.splice(0, 0, todo);
-		todolists = excluded;
-		
 		setActiveList(todo);
 	};
 
