@@ -19,6 +19,10 @@ const todolistSchema = new Schema(
 			type: String,
 			required: true
 		},
+		isSelected: {
+			type: Boolean,
+			required: false
+		},
 		items: [Item],
 	},
 	{ timestamps: true }

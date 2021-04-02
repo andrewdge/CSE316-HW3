@@ -18,6 +18,7 @@ export const GET_DB_TODOS = gql`
 			id
 			name
 			owner
+			isSelected
 			items {
 				_id
 				id

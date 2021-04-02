@@ -130,3 +130,9 @@ export const UPDATE_TODOLIST_FIELD = gql`
 		updateTodolistField(_id: $_id, field: $field, value: $value)
 	}
 `;
+
+export const CHANGE_IS_SELECTED = gql`
+	mutation ChangeIsSelected($_id: String!, $isActive: Boolean!) {
+		changeIsSelected(_id: $_id, isActive: $isActive)
+	}
+`;

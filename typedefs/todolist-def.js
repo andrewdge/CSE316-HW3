@@ -34,6 +34,7 @@ const typeDefs = gql `
 		reorderItemsByTask(_id: String!, isAscending: Boolean!): [Item]
 		reorderItemsByDueDate(_id: String!, isAscending: Boolean!): [Item]
 		reorderItemsByStatus(_id: String!, isAscending: Boolean!): [Item]
+		changeIsSelected(_id: String!, isActive: Boolean!): Boolean
 	}
 	input FieldInput {
 		_id: String
@@ -45,6 +46,7 @@ const typeDefs = gql `
 		name: String
 		id: Int
 		owner: String
+		isSelected: Boolean
 		items: [ItemInput]
 	}
 	input ItemInput {

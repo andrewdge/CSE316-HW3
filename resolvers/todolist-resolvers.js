@@ -14,7 +14,7 @@ module.exports = {
 		getAllTodos: async (_, __, { req }) => {
 			const _id = new ObjectId(req.userId);
 			if(!_id) { return([])};
-			const todolists = await Todolist.find({owner: _id});
+			const todolists = await Todolist.find({owner: _id}).sort({ isSelected: -1});
 			if(todolists) return (todolists);
 		},
 		/** 
@@ -62,12 +62,13 @@ module.exports = {
 		addTodolist: async (_, args) => {
 			const { todolist } = args;
 			const objectId = new ObjectId();
-			const { id, name, owner, items } = todolist;
+			const { id, name, owner, isSelected, items } = todolist;
 			const newList = new Todolist({
 				_id: objectId,
 				name: name,
 				id: id,
 				owner: owner,
+				isSelected: isSelected,
 				items: items
 			});
 			const updated = newList.save();
@@ -261,6 +262,14 @@ module.exports = {
 			if (updated) return (listItems);
 			listItems = activeList.items;
 			return (activeList.items);
+		},
+
+		changeIsSelected: async (_, args) => {
+			const { _id, isActive } = args;
+			const listId = new ObjectId(_id);
+			const newActiveList = await Todolist.updateOne({_id: listId}, { isSelected: isActive });
+			if (newActiveList) return true;
+			return false;
 		}
 
 	}
