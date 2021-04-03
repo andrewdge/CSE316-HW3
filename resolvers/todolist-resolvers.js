@@ -73,7 +73,11 @@ module.exports = {
 				items: items
 			});
 			const updated = newList.save();
-			if(updated) return objectId;
+			const objectString = objectId.toString();
+			console.log(objectString);
+			if(updated){
+				return objectString;
+			} 
 			else return ('Could not add todolist');
 		},
 		/** 

@@ -115,7 +115,7 @@ export const REORDER_ITEMS_BY_STATUS = gql`
 
 export const ADD_TODOLIST = gql`
 	mutation AddTodolist($todolist: TodoInput!) {
-		addTodolist(todolist: $todolist) 
+		addTodolist(todolist: $todolist)
 	}
 `;
 

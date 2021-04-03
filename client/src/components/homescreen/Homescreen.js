@@ -164,12 +164,10 @@ const Homescreen = (props) => {
 			owner: props.user._id,
 			items: [],
 		}
-		const { objectId } = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }] });
-		//setActiveList(list)
-		// const { d2 } = await ChangeIsSelected({ variables: { _id: list._id, isActive: list.isSelected } });
-		console.log("hi");
-		console.log(objectId);
-		handleSetActive(objectId, activeId);
+		const { data }  = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }] });
+
+		await refetchTodos(refetch);
+		handleSetActive(data.addTodolist, activeId);
 	};
 
 	const deleteList = async (_id) => {
@@ -186,23 +184,18 @@ const Homescreen = (props) => {
 	};
 
 	const handleSetActive = async (_id, activeId) => {
-		// console.log(activeId);
-		// console.log(_id);
 		props.tps.clearAllTransactions();
 		const todo = todolists.find(todo => todo._id === _id);
-		const isTrue = true;
 		if (activeId !== undefined) {
-			await ChangeIsSelected({ variables: { _id: activeId, isActive: !isTrue }});
+			await ChangeIsSelected({ variables: { _id: activeId, isActive: false }});
 		}
-		await ChangeIsSelected({ variables: { _id: _id, isActive: isTrue }, refetchQueries: [{ query: GET_DB_TODOS}]  });
-		
-
+		await ChangeIsSelected({ variables: { _id: _id, isActive: true }, refetchQueries: [{ query: GET_DB_TODOS}]  });
 		setActiveList(todo);
 	};
 
 	const closeActiveList = async (activeId) => {
 		props.tps.clearAllTransactions();
-		// const { data } = await ChangeIsSelected({ variables: { _id: activeId, isActive: false}})
+		await ChangeIsSelected({ variables: { _id: activeId, isActive: false}, refetchQueries: [{ query: GET_DB_TODOS}]});
 		setActiveList({});
 	}
 
