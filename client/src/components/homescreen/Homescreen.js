@@ -164,8 +164,7 @@ const Homescreen = (props) => {
 			owner: props.user._id,
 			items: [],
 		}
-		const { data }  = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }] });
-
+		const { data }  = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }]});
 		await refetchTodos(refetch);
 		handleSetActive(data.addTodolist, activeId);
 	};
@@ -189,7 +188,7 @@ const Homescreen = (props) => {
 		if (activeId !== undefined) {
 			await ChangeIsSelected({ variables: { _id: activeId, isActive: false }});
 		}
-		await ChangeIsSelected({ variables: { _id: _id, isActive: true }, refetchQueries: [{ query: GET_DB_TODOS}]  });
+		await ChangeIsSelected({ variables: { _id: _id, isActive: true }, refetchQueries: [{ query: GET_DB_TODOS}] });
 		setActiveList(todo);
 	};
 
