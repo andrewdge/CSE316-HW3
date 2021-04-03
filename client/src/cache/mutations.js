@@ -74,35 +74,9 @@ export const REORDER_ITEMS = gql`
 	}
 `;
 
-export const REORDER_ITEMS_BY_TASK = gql`
-	mutation ReorderItemsByTask($_id: String!, $isAscending: Boolean!) {
-		reorderItemsByTask(_id: $_id, isAscending: $isAscending) {
-			_id
-			id
-			description
-			due_date
-			assigned_to
-			completed
-		}
-	}
-`;
-
-export const REORDER_ITEMS_BY_DUE_DATE = gql`
-	mutation ReorderItemsByDueDate($_id: String!, $isAscending: Boolean!) {
-		reorderItemsByDueDate(_id: $_id, isAscending: $isAscending) {
-			_id
-			id
-			description
-			due_date
-			assigned_to
-			completed
-		}
-	}
-`;
-
-export const REORDER_ITEMS_BY_STATUS = gql`
-	mutation ReorderItemsByStatus($_id: String!, $isAscending: Boolean!) {
-		reorderItemsByStatus(_id: $_id, isAscending: $isAscending) {
+export const REORDER_ITEMS_BY_CRITERIA = gql`
+	mutation ReorderItemsByCriteria($_id: String!, $isAscending: Boolean!, $criteria: String!) {
+		reorderItemsByCriteria(_id: $_id, isAscending: $isAscending, criteria: $criteria) {
 			_id
 			id
 			description

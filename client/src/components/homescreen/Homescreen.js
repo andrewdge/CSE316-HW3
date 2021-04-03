@@ -27,9 +27,7 @@ const Homescreen = (props) => {
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
 
-	const [ReorderItemsByStatus]    = useMutation(mutations.REORDER_ITEMS_BY_STATUS);
-	const [ReorderItemsByDueDate]   = useMutation(mutations.REORDER_ITEMS_BY_DUE_DATE);
-	const [ReorderItemsByTask]      = useMutation(mutations.REORDER_ITEMS_BY_TASK);
+	const [ReorderItemsByCriteria]  = useMutation(mutations.REORDER_ITEMS_BY_CRITERIA);
 	const [ReorderTodoItems] 		= useMutation(mutations.REORDER_ITEMS);
 	const [UpdateTodoItemField] 	= useMutation(mutations.UPDATE_ITEM_FIELD);
 	const [UpdateTodolistField] 	= useMutation(mutations.UPDATE_TODOLIST_FIELD);
@@ -85,7 +83,7 @@ const Homescreen = (props) => {
 			id: lastID,
 			description: 'No Description',
 			due_date: 'No Date',
-			assigned_to: props.user._id,
+			assigned_to: 'No User',  /* props.user._id,*/
 			completed: false
 		};
 		let opcode = 1;
@@ -132,23 +130,9 @@ const Homescreen = (props) => {
 
 	};
 
-	const reorderByTask = async (isAscending) => {
+	const reorder = async (isAscending, criteria) => {
 		let listID = activeList._id;
-		let transaction = new ReorderItemsByCriteria_Transaction(listID, isAscending, ReorderItemsByTask);
-		props.tps.addTransaction(transaction);
-		tpsRedo();
-	};
-
-	const reorderByDueDate = async (isAscending) => {
-		let listID = activeList._id;
-		let transaction = new ReorderItemsByCriteria_Transaction(listID, isAscending, ReorderItemsByDueDate);
-		props.tps.addTransaction(transaction);
-		tpsRedo(); 
-	}
-
-	const reorderByStatus = async (isAscending) => {
-		let listID = activeList._id;
-		let transaction = new ReorderItemsByCriteria_Transaction(listID, isAscending, ReorderItemsByStatus);
+		let transaction = new ReorderItemsByCriteria_Transaction(listID, isAscending, criteria, ReorderItemsByCriteria);
 		props.tps.addTransaction(transaction);
 		tpsRedo(); 
 	}
@@ -164,7 +148,7 @@ const Homescreen = (props) => {
 			owner: props.user._id,
 			items: [],
 		}
-		const { data }  = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }]});
+		const { data }  = await AddTodolist({ variables: { todolist: list }/*, refetchQueries: [{ query: GET_DB_TODOS }]*/});
 		await refetchTodos(refetch);
 		handleSetActive(data.addTodolist, activeId);
 	};
@@ -248,7 +232,6 @@ const Homescreen = (props) => {
 							<SidebarContents
 								todolists={todolists} activeid={activeList._id} auth={auth}
 								handleSetActive={handleSetActive} createNewList={createNewList}
-								undo={tpsUndo} redo={tpsRedo}
 								updateListField={updateListField}
 							/>
 							:
@@ -262,9 +245,10 @@ const Homescreen = (props) => {
 							<div className="container-secondary">
 								<MainContents
 									addItem={addItem} deleteItem={deleteItem} editItem={editItem} reorderItem={reorderItem}
-									reorderByTask={reorderByTask} reorderByDueDate={reorderByDueDate} reorderByStatus={reorderByStatus}
 									setShowDelete={setShowDelete}
 									activeList={activeList} closeActiveList={closeActiveList}
+									reorder={reorder}
+									undo={tpsUndo} redo={tpsRedo}
 								/>
 							</div>
 						:

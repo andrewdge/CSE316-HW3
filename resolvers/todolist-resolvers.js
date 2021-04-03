@@ -174,94 +174,22 @@ module.exports = {
 			listItems = found.items;
 			return (found.items);
 		},
-
-
-		reorderItemsByTask: async (_, args) => {
-			const { _id, isAscending } = args;
+		reorderItemsByCriteria: async (_, args) => {
+			const { _id, isAscending, criteria } = args;
 			const listId = new ObjectId(_id);
 			const activeList = await Todolist.findOne({_id: listId});
 			let listItems = activeList.items;
 			
-			listItems.sort(function(item1, item2) {
-				let negate = -1;
-				if (!isAscending) {
-					negate = 1;
+			listItems.sort(function(a, b) {
+				a = a[criteria];
+				b = b[criteria];
+				// return isAscending ?    (a<b)  ?  -1:   (a>b)?1:0               :         (a>b)  ?  -1  :     (a<b)?1:0; 
+				if (criteria !== "completed"){
+					return isAscending ? a.localeCompare(b) : b.localeCompare(a);
+				} else {
+					return isAscending ?    (a<b)  ?  -1:   (a>b)?1:0               :         (a>b)  ?  -1  :     (a<b)?1:0; 
 				}
-				let value1 = item1["description"].toLowerCase();
-				let value2 = item2["description"].toLowerCase();
-				if (value1 < value2) {
-					return -1 * negate;
-				}
-				else if (value1 === value2) {
-					if (item1["description"] < item2["description"]) {
-						return -1 * negate;
-					} else if (item1["description"] < item2["description"]) {
-						return 0;
-					} else {
-						return 1 * negate;
-					}
-				}
-				else {
-					return 1 * negate;
-				}
-			});
-			const updated = await Todolist.updateOne({_id: listId}, { items: listItems });
-			if (updated) return (listItems);
-			listItems = activeList.items;
-			return (activeList.items);
-		},
-
-		reorderItemsByDueDate: async (_, args) => {
-			const { _id, isAscending } = args;
-			const listId = new ObjectId(_id);
-			const activeList = await Todolist.findOne({_id: listId});
-			let listItems = activeList.items;
-			
-			listItems.sort(function(item1, item2) {
-				let negate = -1;
-				if (!isAscending) {
-					negate = 1;
-				}
-				let value1 = item1["due_date"];
-				let value2 = item2["due_date"];
-				if (value1 < value2) {
-					return -1 * negate;
-				}
-				else if (value1 === value2) {
-					return 0;
-				}
-				else {
-					return 1 * negate;
-				}
-			});
-			const updated = await Todolist.updateOne({_id: listId}, { items: listItems });
-			if (updated) return (listItems);
-			listItems = activeList.items;
-			return (activeList.items);
-		},
-
-		reorderItemsByStatus: async (_, args) => {
-			const { _id, isAscending } = args;
-			const listId = new ObjectId(_id);
-			const activeList = await Todolist.findOne({_id: listId});
-			let listItems = activeList.items;
-			
-			listItems.sort(function(item1, item2) {
-				let negate = -1;
-				if (!isAscending) {
-					negate = 1;
-				}
-				let value1 = item1["completed"];
-				let value2 = item2["completed"];
-				if (value1 < value2) {
-					return -1 * negate;
-				}
-				else if (value1 === value2) {
-					return 0;
-				}
-				else {
-					return 1 * negate;
-				}
+				
 			});
 			const updated = await Todolist.updateOne({_id: listId}, { items: listItems });
 			if (updated) return (listItems);
