@@ -139,7 +139,8 @@ const Homescreen = (props) => {
 
 	const createNewList = async (activeId) => {
 		const length = todolists.length
-		const id = length >= 1 ? todolists[length - 1].id + 1 : 1;
+		// const id = length >= 1 ? todolists[length - 1].id + 1 : 1;
+		const id = length >= 1 ? todolists.length : 0;
 		let list = {
 			_id: '',
 			id: id,
@@ -174,6 +175,7 @@ const Homescreen = (props) => {
 		}
 		await ChangeIsSelected({ variables: { _id: _id, isActive: true }, refetchQueries: [{ query: GET_DB_TODOS}] });
 		setActiveList(todo);
+		console.log(todolists);
 	};
 
 	const closeActiveList = async (activeId) => {
