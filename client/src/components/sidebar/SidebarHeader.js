@@ -10,17 +10,11 @@ const SidebarHeader = (props) => {
                 </WButton>
             </WCol>
 
-            <WCol size="5">
+            <WCol size="1">
                 {
                     props.auth && <div className="sidebar-options">
                         <WButton className="sidebar-buttons" onClick={() => {props.createNewList(props.activeid)}} clickAnimation="ripple-light" shape="rounded" color="primary">
                             <i className="material-icons">add</i>
-                        </WButton>
-                        <WButton className="sidebar-buttons undo-redo" onClick={props.undo} wType="texted" clickAnimation="ripple-light" shape="rounded">
-                            <i className="material-icons">undo</i>
-                        </WButton>
-                        <WButton className="sidebar-buttons undo-redo" onClick={props.redo} wType="texted" clickAnimation="ripple-light" shape="rounded">
-                            <i className="material-icons">redo</i>
                         </WButton>
                     </div>
                 }

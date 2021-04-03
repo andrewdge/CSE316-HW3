@@ -129,6 +129,11 @@ html, body {
     color: var(--light-gray);
 }
 
+.table-header-button:hover {
+    cursor: pointer;
+    background-color: var(--deep-blue-lighter);
+}
+
 .table-header-button-disabled {
     transition: 0.1s ease-in-out;
     color: var(--warm-black);
