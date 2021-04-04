@@ -194,6 +194,10 @@ const Homescreen = (props) => {
 		pollUndo();
 		pollRedo();
 		const todo = todolists.find(todo => todo._id === _id);
+		const active = todolists.find(todo => todo.isSelected === true);
+		if (active){
+			await ChangeIsSelected({ variables: {_id: active._id, isActive: false }});
+		}
 		if (activeId !== undefined) {
 			await ChangeIsSelected({ variables: { _id: activeId, isActive: false }});
 		}
