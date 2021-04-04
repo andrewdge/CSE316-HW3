@@ -212,6 +212,14 @@ module.exports = {
 		changeIsSelected: async (_, args) => {
 			const { _id, isActive } = args;
 			const listId = new ObjectId(_id);
+
+			// const todolists = await Todolist.find({owner: _id});
+			// for (i = 0; i < todolists.length(); i++){
+			// 	if (todolists[i].isSelected){
+			// 		let listId = todolists[i]._id;
+			// 		Todolist.updateOne({_id: listId}, { isSelected: false});
+			// 	}
+			// }
 			const newActiveList = await Todolist.updateOne({_id: listId}, { isSelected: isActive });
 			if (newActiveList) return true;
 			return false;

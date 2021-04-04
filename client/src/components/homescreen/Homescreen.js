@@ -44,6 +44,11 @@ const Homescreen = (props) => {
 	if(error) { console.log(error, 'error'); }
 	if(data) { 
 		todolists = data.getAllTodos;
+		// for (let i = 0; i < todolists.length; i++){
+		// 	if (todolists[i].isSelected === true){
+		// 		closeActiveList(todolists[i]._id);
+		// 	}
+		// }
 	}
 
 	const auth = props.user === null ? false : true;

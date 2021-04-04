@@ -44,15 +44,15 @@ const TableHeader = (props) => {
                   <WButton onClick={props.disabled ? clickDisabled : taskReorder} className={`${headerStyle}`} wType="texted" >Task</WButton>
                </WCol>;
     let dueDate = <WCol size="2">
-                    <WButton onClick={dueDateReorder} className={`${headerStyle}`} wType="texted">Due Date</WButton>
+                    <WButton onClick={props.disabled ? clickDisabled : dueDateReorder} className={`${headerStyle}`} wType="texted">Due Date</WButton>
                   </WCol>;
 
     let status = <WCol size="2">
-                   <WButton onClick={statusReorder} className={`${headerStyle}`} wType="texted" >Status</WButton>
+                   <WButton onClick={props.disabled ? clickDisabled : statusReorder} className={`${headerStyle}`} wType="texted" >Status</WButton>
                  </WCol>;
 
     let assigned_to = <WCol size="2">
-                    <WButton onClick={assignedToReorder} className={`${headerStyle}`} wType="texted" >Assigned To</WButton>
+                    <WButton onClick={props.disabled ? clickDisabled : assignedToReorder} className={`${headerStyle}`} wType="texted" >Assigned To</WButton>
                 </WCol>;
     
     return (

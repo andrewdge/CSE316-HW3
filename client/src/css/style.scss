@@ -131,7 +131,7 @@ html, body {
 
 .table-header-button:hover {
     cursor: pointer;
-    background-color: var(--deep-blue-lighter);
+    background-color: var(--warm-black);
 }
 
 .table-header-button-disabled {
@@ -160,7 +160,7 @@ html, body {
 .table-header-section:hover {
     transition: 0.1s ease-in-out;
     cursor: pointer;
-    background-color: var(--deep-blue-lighter);
+    background-color: var(--warm-black);
 }
 
 .table-input {
@@ -205,6 +205,12 @@ html, body {
 
 .table-entry-buttons {
     color: $text-color;
+}
+
+.table-entry-buttons:hover {
+    transition: 0.1s ease-in-out;
+    cursor: pointer;
+    background-color: var(--warm-black);
 }
 
 .table-entry-buttons-disabled {
