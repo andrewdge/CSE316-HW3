@@ -5,7 +5,6 @@ const TableContents = (props) => {
 
     const entries = props.activeList ? props.activeList.items : null;
     let length;
-    console.log(entries);
     if (entries === undefined) {
         length = 0;
     } else {

@@ -75,8 +75,8 @@ export const REORDER_ITEMS = gql`
 `;
 
 export const REORDER_ITEMS_BY_CRITERIA = gql`
-	mutation ReorderItemsByCriteria($_id: String!, $isAscending: Boolean!, $criteria: String!) {
-		reorderItemsByCriteria(_id: $_id, isAscending: $isAscending, criteria: $criteria) {
+	mutation ReorderItemsByCriteria($_id: String!, $isAscending: Boolean!, $criteria: String!, $doUndo: String!, $items: [ItemInput]!) {
+		reorderItemsByCriteria(_id: $_id, isAscending: $isAscending, criteria: $criteria, doUndo: $doUndo, items: $items) {
 			_id
 			id
 			description

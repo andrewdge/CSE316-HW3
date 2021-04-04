@@ -4,10 +4,10 @@ import { WButton, WRow, WCol } from 'wt-frontend';
 
 const TableHeader = (props) => {
 
-    const [isTaskAscending, taskToggleAscending] = useState(true);
-    const [isDueDateAscending, dueDateToggleAscending] = useState(true);
-    const [isStatusAscending, statusToggleAscending] = useState(true);
-    const [isAssignedToAscending, assignedToToggleAscending] = useState(true);
+    const [isTaskAscending, taskToggleAscending] = useState(false);
+    const [isDueDateAscending, dueDateToggleAscending] = useState(false);
+    const [isStatusAscending, statusToggleAscending] = useState(false);
+    const [isAssignedToAscending, assignedToToggleAscending] = useState(false);
 
 
     //TODO: maybe add  clickAnimation="ripple-light"
@@ -20,22 +20,22 @@ const TableHeader = (props) => {
     const clickDisabled = () => { };
 
     const taskReorder = () => {
-        props.reorder(isTaskAscending, "description");
+        props.reorder(isTaskAscending, "description", props.activeList.items);
         taskToggleAscending(!isTaskAscending);
     }
 
     const dueDateReorder = () => {
-        props.reorder(isDueDateAscending, "due_date");
+        props.reorder(isDueDateAscending, "due_date", props.activeList.items);
         dueDateToggleAscending(!isDueDateAscending);
     }
 
     const statusReorder = () => {
-        props.reorder(isStatusAscending, "completed");
+        props.reorder(isStatusAscending, "completed", props.activeList.items);
         statusToggleAscending(!isStatusAscending);
     }
 
     const assignedToReorder = () => {
-        props.reorder(isAssignedToAscending, "assigned_to");
+        props.reorder(isAssignedToAscending, "assigned_to", props.activeList.items);
         assignedToToggleAscending(!isAssignedToAscending);
         
     }

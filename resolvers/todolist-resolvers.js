@@ -174,27 +174,39 @@ module.exports = {
 			listItems = found.items;
 			return (found.items);
 		},
+
 		reorderItemsByCriteria: async (_, args) => {
-			const { _id, isAscending, criteria } = args;
+			const { _id, isAscending, criteria, doUndo, items } = args;
+
 			const listId = new ObjectId(_id);
 			const activeList = await Todolist.findOne({_id: listId});
-			let listItems = activeList.items;
 			
-			listItems.sort(function(a, b) {
-				a = a[criteria];
-				b = b[criteria];
-				// return isAscending ?    (a<b)  ?  -1:   (a>b)?1:0               :         (a>b)  ?  -1  :     (a<b)?1:0; 
-				if (criteria !== "completed"){
-					return isAscending ? a.localeCompare(b) : b.localeCompare(a);
-				} else {
-					return isAscending ?    (a<b)  ?  -1:   (a>b)?1:0               :         (a>b)  ?  -1  :     (a<b)?1:0; 
-				}
-				
-			});
-			const updated = await Todolist.updateOne({_id: listId}, { items: listItems });
-			if (updated) return (listItems);
-			listItems = activeList.items;
-			return (activeList.items);
+
+			if (doUndo === "do"){
+				let listItems = activeList.items;
+				listItems.sort(function(a, b) {
+					a = a[criteria];
+					b = b[criteria];
+					// return isAscending ?    (a<b)  ?  -1:   (a>b)?1:0               :         (a>b)  ?  -1  :     (a<b)?1:0; 
+					if (criteria !== "completed"){
+						return isAscending ? a.localeCompare(b) : b.localeCompare(a);
+					} else {
+						return isAscending ?    (a<b)  ?  -1:   (a>b)?1:0               :         (a>b)  ?  -1  :     (a<b)?1:0; 
+					}
+					
+				});
+				const updated = await Todolist.updateOne({_id: listId}, { items: listItems });
+				if (updated) return (listItems);
+				listItems = activeList.items;
+				return (activeList.items);
+			} else {
+				let listItems = items;
+				const updated = await Todolist.updateOne({_id: listId}, { items: listItems });
+				if (updated) return (listItems);
+				listItems = activeList.items;
+				return (activeList.items);
+			}
+
 		},
 
 		changeIsSelected: async (_, args) => {

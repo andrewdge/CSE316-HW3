@@ -47,21 +47,23 @@ export class ReorderItems_Transaction extends jsTPS_Transaction {
 }
 
 export class ReorderItemsByCriteria_Transaction extends jsTPS_Transaction {
-    constructor(listID, isAscending, criteria, callback) {
+    constructor(listID, isAscending, criteria, items, callback) {
         super();
         this.listID = listID;
 		this.isAscending = isAscending;
         this.criteria = criteria;
+        this.items = items;
 		this.updateFunction = callback;
 	}
 
     async doTransaction() {
-		const { data } = await this.updateFunction({ variables: { _id: this.listID, isAscending: this.isAscending, criteria: this.criteria }});
+		const { data } = await this.updateFunction({ variables: { _id: this.listID, isAscending: this.isAscending, criteria: this.criteria, doUndo: "do", items:  this.items }});
+        this.sortedItems = data;
 		return data;
     }
 
     async undoTransaction() {
-		const { data } = await this.updateFunction({ variables: { _id: this.listID, isAscending: !this.isAscending, criteria: this.criteria }});
+		const { data } = await this.updateFunction({ variables: { _id: this.listID, isAscending: this.isAscending, criteria: this.criteria, doUndo: "undo", items: this.items }});
 		return data;
     }
 }

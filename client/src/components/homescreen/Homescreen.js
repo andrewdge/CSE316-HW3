@@ -15,7 +15,7 @@ import { UpdateListField_Transaction,
 	UpdateListItems_Transaction, 
 	ReorderItems_Transaction, 
 	ReorderItemsByCriteria_Transaction,
-	EditItem_Transaction } 				from '../../utils/jsTPS';
+	EditItem_Transaction} 				from '../../utils/jsTPS';
 import WInput from 'wt-frontend/build/components/winput/WInput';
 
 
@@ -146,11 +146,13 @@ const Homescreen = (props) => {
 		tpsRedo();
 	};
 
-	const reorder = async (isAscending, criteria) => {
+	const reorder = async(isAscending, criteria, items) => {
+		//remove typename cuz it sucks
+		let cleanedItems = items.map(({ __typename, ...rest}) => rest);
 		let listID = activeList._id;
-		let transaction = new ReorderItemsByCriteria_Transaction(listID, isAscending, criteria, ReorderItemsByCriteria);
+		let transaction = new ReorderItemsByCriteria_Transaction(listID, isAscending, criteria, cleanedItems, ReorderItemsByCriteria);
 		props.tps.addTransaction(transaction);
-		tpsRedo(); 
+		tpsRedo();
 	}
 
 	const createNewList = async (activeId) => {
@@ -192,7 +194,6 @@ const Homescreen = (props) => {
 		}
 		await ChangeIsSelected({ variables: { _id: _id, isActive: true }, refetchQueries: [{ query: GET_DB_TODOS}] });
 		setActiveList(todo);
-		console.log(todolists);
 	};
 
 	const closeActiveList = async (activeId) => {
