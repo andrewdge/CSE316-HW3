@@ -4,6 +4,14 @@ import TableEntry   from './TableEntry';
 const TableContents = (props) => {
 
     const entries = props.activeList ? props.activeList.items : null;
+    let length;
+    console.log(entries);
+    if (entries === undefined) {
+        length = 0;
+    } else {
+        length = entries.length - 1;
+    }
+
     return (
         entries ? <div className=' table-entries container-primary'>
             {
@@ -12,12 +20,14 @@ const TableContents = (props) => {
                         data={entry} key={entry.id}
                         deleteItem={props.deleteItem} reorderItem={props.reorderItem}
                         editItem={props.editItem}
+                        length={length}
+                        index={index}
                     />
                 ))
             }
-
             </div>
             : <div className='container-primary' />
+        
     );
 };
 

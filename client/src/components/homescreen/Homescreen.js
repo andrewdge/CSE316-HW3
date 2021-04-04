@@ -26,6 +26,8 @@ const Homescreen = (props) => {
 	const [showDelete, toggleShowDelete] 	= useState(false);
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
+	const [canUndo, setUndo]                = useState(false);
+	const [canRedo, setRedo]                = useState(false);
 
 	const [ReorderItemsByCriteria]  = useMutation(mutations.REORDER_ITEMS_BY_CRITERIA);
 	const [ReorderTodoItems] 		= useMutation(mutations.REORDER_ITEMS);
@@ -61,13 +63,29 @@ const Homescreen = (props) => {
 	const tpsUndo = async () => {
 		const retVal = await props.tps.undoTransaction();
 		refetchTodos(refetch);
+		pollUndo();
+		pollRedo();
 		return retVal;
 	}
 
 	const tpsRedo = async () => {
 		const retVal = await props.tps.doTransaction();
 		refetchTodos(refetch);
+		pollUndo();
+		pollRedo();
 		return retVal;
+	}
+
+	const pollUndo = async () => {
+		const retVal = await props.tps.hasTransactionToUndo();
+		if (retVal) setUndo(true);
+		else setUndo(false);
+	}
+
+	const pollRedo = async () => {
+		const retVal = await props.tps.hasTransactionToRedo();
+		if (retVal) setRedo(true);
+		else setRedo(false);
 	}
 
 
@@ -119,7 +137,6 @@ const Homescreen = (props) => {
 		let transaction = new EditItem_Transaction(listID, itemID, field, prev, value, flag, UpdateTodoItemField);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
-
 	};
 
 	const reorderItem = async (itemID, dir) => {
@@ -127,7 +144,6 @@ const Homescreen = (props) => {
 		let transaction = new ReorderItems_Transaction(listID, itemID, dir, ReorderTodoItems);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
-
 	};
 
 	const reorder = async (isAscending, criteria) => {
@@ -164,11 +180,12 @@ const Homescreen = (props) => {
 		let transaction = new UpdateListField_Transaction(_id, field, prev, value, UpdateTodolistField);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
-
 	};
 
 	const handleSetActive = async (_id, activeId) => {
 		props.tps.clearAllTransactions();
+		pollUndo();
+		pollRedo();
 		const todo = todolists.find(todo => todo._id === _id);
 		if (activeId !== undefined) {
 			await ChangeIsSelected({ variables: { _id: activeId, isActive: false }});
@@ -180,6 +197,8 @@ const Homescreen = (props) => {
 
 	const closeActiveList = async (activeId) => {
 		props.tps.clearAllTransactions();
+		pollUndo();
+		pollRedo();
 		await ChangeIsSelected({ variables: { _id: activeId, isActive: false}, refetchQueries: [{ query: GET_DB_TODOS}]});
 		setActiveList({});
 	}
@@ -251,6 +270,7 @@ const Homescreen = (props) => {
 									activeList={activeList} closeActiveList={closeActiveList}
 									reorder={reorder}
 									undo={tpsUndo} redo={tpsRedo}
+									canUndo={canUndo} canRedo={canRedo}
 								/>
 							</div>
 						:

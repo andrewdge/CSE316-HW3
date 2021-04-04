@@ -7,6 +7,9 @@ const TableEntry = (props) => {
     const completeStyle = data.completed ? ' complete-task' : ' incomplete-task';
     const isAssignedToCompleted = data.completed ? {color: 'black'} : {color: 'red'};
 
+    const canShiftUpStyle = props.index !== 0 ? 'table-entry-buttons' : 'table-entry-buttons-disabled';
+    const canShiftDownStyle = props.index !== props.length ? 'table-entry-buttons' : 'table-entry-buttons-disabled';
+
     const description = data.description;
     const due_date = data.due_date;
     const status = data.completed ? 'complete' : 'incomplete';
@@ -107,10 +110,10 @@ const TableEntry = (props) => {
 
             <WCol size="2">
                 <div className='button-group'>
-                    <WButton className="table-entry-buttons" onClick={() => props.reorderItem(data._id, -1)} wType="texted">
+                    <WButton className={`${canShiftUpStyle}`} onClick={() => props.reorderItem(data._id, -1)} wType="texted">
                         <i className="material-icons">expand_less</i>
                     </WButton>
-                    <WButton className="table-entry-buttons" onClick={() => props.reorderItem(data._id, 1)} wType="texted">
+                    <WButton className={`${canShiftDownStyle}`} onClick={() => props.reorderItem(data._id, 1)} wType="texted">
                         <i className="material-icons">expand_more</i>
                     </WButton>
                     <WButton className="table-entry-buttons" onClick={() => props.deleteItem(data)} wType="texted">

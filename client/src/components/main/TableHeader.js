@@ -9,7 +9,13 @@ const TableHeader = (props) => {
     const [isStatusAscending, statusToggleAscending] = useState(true);
     const [isAssignedToAscending, assignedToToggleAscending] = useState(true);
 
+
+    //TODO: maybe add  clickAnimation="ripple-light"
     const buttonStyle = props.disabled ? ' table-header-button-disabled ' : 'table-header-button ';
+
+    const undoStyle = props.canUndo ? 'table-header-button ' : ' table-header-button-disabled ';
+    const redoStyle = props.canRedo ? 'table-header-button ' : ' table-header-button-disabled ';
+
     const headerStyle = props.disabled ? ' table-header-section-disabled ' : ' table-header-section ';
     const clickDisabled = () => { };
 
@@ -62,12 +68,12 @@ const TableHeader = (props) => {
             <WCol size="1">
                 <WRow className="table-header-buttons">
                     <WCol size="1">
-                        <WButton className={`${buttonStyle}`} onClick={props.disabled ? clickDisabled : props.undo} wType="texted" clickAnimation="ripple-light" shape="rounded">
+                        <WButton className={`${undoStyle}`} onClick={props.canUndo ? props.undo : clickDisabled } wType="texted" shape="rounded">
                             <i className="material-icons">undo</i>
                         </WButton>
                     </WCol> 
                     <WCol size="1">
-                        <WButton className={`${buttonStyle}`} onClick={props.disabled ? clickDisabled : props.redo} wType="texted" clickAnimation="ripple-light" shape="rounded">
+                        <WButton className={`${redoStyle}`} onClick={props.canRedo ? props.redo : clickDisabled } wType="texted" shape="rounded">
                             <i className="material-icons">redo</i>
                         </WButton>
                     </WCol>
