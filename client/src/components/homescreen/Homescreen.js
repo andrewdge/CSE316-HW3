@@ -28,6 +28,9 @@ const Homescreen = (props) => {
 	const [showCreate, toggleShowCreate] 	= useState(false);
 	const [canUndo, setUndo]                = useState(false);
 	const [canRedo, setRedo]                = useState(false);
+	const [ctrl, setCtrl]              = useState(false);
+	const [y, setY]                    = useState(false);
+	const [z, setZ]                    = useState(false);
 
 	const [ReorderItemsByCriteria]  = useMutation(mutations.REORDER_ITEMS_BY_CRITERIA);
 	const [ReorderTodoItems] 		= useMutation(mutations.REORDER_ITEMS);
@@ -235,7 +238,38 @@ const Homescreen = (props) => {
 		toggleShowCreate(false);
 		toggleShowLogin(false);
 		toggleShowDelete(!showDelete)
-	}
+	};
+
+	useEffect(() => {
+		document.onkeydown = (e) => {
+			if (e.key === 'Control') {
+			  setCtrl(true);
+			} 
+			if (e.key === 'y') {
+			  if (ctrl && canRedo) tpsRedo();
+			  setY(true);
+			} 
+			if (e.key === 'z') {
+			  if (ctrl && canUndo) tpsUndo();
+			  setZ(true);
+			} 
+		  }
+		  document.onkeyup = (e) => {
+			if (e.key === 'Control') {
+			  setCtrl(false);
+			} 
+			if (e.key === 'y') {
+			  setY(false);
+			} 
+			if (e.key === 'z') {
+			  setZ(false);
+			} 
+		  }
+
+		return () => {
+			
+		}
+	});
 
 	return (
 		<WLayout wLayout="header-lside">
