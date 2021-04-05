@@ -7,8 +7,8 @@ const TableEntry = (props) => {
     const completeStyle = data.completed ? ' complete-task' : ' incomplete-task';
     const isAssignedToCompleted = data.completed ? {color: 'black'} : {color: 'red'};
 
-    const canShiftUpStyle = props.index !== 0 ? 'table-entry-buttons' : 'table-entry-buttons-disabled';
-    const canShiftDownStyle = props.index !== props.length ? 'table-entry-buttons' : 'table-entry-buttons-disabled';
+    const canShiftUpStyle = 'table-entry-buttons'; //props.index !== 0 ? 'table-entry-buttons' : 'table-entry-buttons-disabled';
+    const canShiftDownStyle = 'table-entry-buttons'; //props.length ? 'table-entry-buttons' : 'table-entry-buttons-disabled';
 
     const description = data.description;
     const due_date = data.due_date;
@@ -49,7 +49,7 @@ const TableEntry = (props) => {
 
     return (
         <WRow className='table-entry'>
-            <WCol size="3">
+            <WCol size="3" style={{overflow: "hidden"}}>
                 {
                     editingDescr || description === ''
                         ? <WInput
@@ -93,7 +93,7 @@ const TableEntry = (props) => {
                 }
             </WCol>
 
-            <WCol size="2">
+            <WCol size="2" style={{overflow: "hidden"}}>
                 {
                     editingAssignedTo || assignedTo === ''
                         ? <WInput
@@ -108,12 +108,12 @@ const TableEntry = (props) => {
                 }
             </WCol>
 
-            <WCol size="2">
+            <WCol size="3">
                 <div className='button-group'>
-                    <WButton className={`${canShiftUpStyle}`} onClick={() => props.reorderItem(data._id, -1)} wType="texted">
+                    <WButton className={`${canShiftUpStyle}`} onClick={() => {if (props.index !== 0) props.reorderItem(data._id, -1)}} wType="texted" disabled={props.index === 0}>
                         <i className="material-icons">expand_less</i>
                     </WButton>
-                    <WButton className={`${canShiftDownStyle}`} onClick={() => props.reorderItem(data._id, 1)} wType="texted">
+                    <WButton className={`${canShiftDownStyle}`} onClick={() => {if (props.index !== props.length) props.reorderItem(data._id, 1)}} wType="texted" disabled={props.index === props.length}>
                         <i className="material-icons">expand_more</i>
                     </WButton>
                     <WButton className="table-entry-buttons" onClick={() => props.deleteItem(data, props.index)} wType="texted">

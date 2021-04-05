@@ -79,17 +79,17 @@ html {
 
 .table-header-button {
     padding: 0;
-    margin-left: 12px;
+    margin-left: 10%;
 }
 
 .table-header-button-disabled{
     padding: 0;
-    margin-left: 12px;
+    margin-left: 5%;
     cursor: default;
 }
 
 .table-header-buttons {
-    float: right;
+    // float: right;
     height: 100%;
     display: flex;
     justify-content: space-between;

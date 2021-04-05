@@ -11,10 +11,10 @@ const TableHeader = (props) => {
 
 
     //TODO: maybe add  clickAnimation="ripple-light"
-    const buttonStyle = props.disabled ? ' table-header-button-disabled ' : 'table-header-button ';
+    const buttonStyle = 'table-entry-buttons'; //props.disabled ? ' table-header-button-disabled ' : 'table-header-button ';
 
-    const undoStyle = props.canUndo ? 'table-header-button ' : ' table-header-button-disabled ';
-    const redoStyle = props.canRedo ? 'table-header-button ' : ' table-header-button-disabled ';
+    const undoStyle = 'table-entry-buttons ';//props.canUndo ? 'table-entry-buttons ' : ' table-entry-buttons-disabled ';
+    const redoStyle = 'table-entry-buttons ';//props.canRedo ? 'table-entry-buttons ' : ' table-entry-buttons-disabled ';
 
     const headerStyle = props.disabled ? ' table-header-section-disabled ' : ' table-header-section ';
     const clickDisabled = () => { };
@@ -65,34 +65,31 @@ const TableHeader = (props) => {
             {status}
 
             {assigned_to}
-            <WCol size="1">
-                <WRow className="table-header-buttons">
-                    <WCol size="1">
-                        <WButton className={`${undoStyle}`} onClick={props.canUndo ? props.undo : clickDisabled } wType="texted" shape="rounded">
-                            <i className="material-icons">undo</i>
+            
+            <WCol size="3">
+                <div className="button-group">
+                    <WButton className={`${undoStyle}`} onClick={props.canUndo ? props.undo : clickDisabled } wType="texted" shape="rounded" disabled={!props.canUndo}>
+                        <i className="material-icons">undo</i>
+                    </WButton>
+
+                    <WButton className={`${redoStyle}`} onClick={props.canRedo ? props.redo : clickDisabled } wType="texted" shape="rounded" disabled={!props.canRedo}>
+                        <i className="material-icons">redo</i>
+                    </WButton>
+                    <div className="button-group">
+                        <WButton onClick={props.disabled ? clickDisabled : props.addItem} wType="texted" className={`${buttonStyle}`} disabled={props.disabled}>
+                            <i className="material-icons">add_box</i>
                         </WButton>
-                    </WCol> 
-                    <WCol size="1">
-                        <WButton className={`${redoStyle}`} onClick={props.canRedo ? props.redo : clickDisabled } wType="texted" shape="rounded">
-                            <i className="material-icons">redo</i>
+                        <WButton onClick={props.disabled ? clickDisabled : props.setShowDelete} wType="texted" className={`${buttonStyle}`} disabled={props.disabled}>
+                            <i className="material-icons">delete_outline</i>
                         </WButton>
-                    </WCol>
-                </WRow>
-            </WCol>
-       
-            <WCol size="2">
-                <div className="table-header-buttons">
-                    <WButton onClick={props.disabled ? clickDisabled : props.addItem} wType="texted" className={`${buttonStyle}`}>
-                        <i className="material-icons">add_box</i>
-                    </WButton>
-                    <WButton onClick={props.disabled ? clickDisabled : props.setShowDelete} wType="texted" className={`${buttonStyle}`}>
-                        <i className="material-icons">delete_outline</i>
-                    </WButton>
-                    <WButton onClick={props.disabled ? clickDisabled : () => props.closeActiveList(props.activeList._id)} wType="texted" className={`${buttonStyle}`}>
-                        <i className="material-icons">close</i>
-                    </WButton>
+                        <WButton onClick={props.disabled ? clickDisabled : () => props.closeActiveList(props.activeList._id)} wType="texted" className={`${buttonStyle}`} disabled={props.disabled}>
+                            <i className="material-icons">close</i>
+                        </WButton>
+                    </div>
                 </div>
+                
             </WCol>
+
 
         </WRow>
     );

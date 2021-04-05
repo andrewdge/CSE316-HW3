@@ -91,6 +91,11 @@ html, body {
     border-bottom: 2px dotted;
 }
 
+.sidebar-buttons:hover {
+    cursor: pointer;
+    color: white;
+}
+
 .sidebar-header-name {
     font-size: 1.375rem;
     font-weight: bold;
@@ -215,5 +220,6 @@ html, body {
 
 .table-entry-buttons-disabled {
     transition: 0.1s ease-in-out;
+    cursor: default;
     color: var(--warm-black);
 }
