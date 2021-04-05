@@ -265,10 +265,7 @@ const Homescreen = (props) => {
 			  setZ(false);
 			} 
 		  }
-
-		return () => {
-			
-		}
+		return () => {}
 	});
 
 	return (
