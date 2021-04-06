@@ -75,7 +75,7 @@ module.exports = {
 				isSelected: isSelected,
 				items: items
 			});
-			const updated = newList.save();
+			const updated = await newList.save();
 			const objectString = objectId.toString();
 			if(updated){
 				return objectString;
