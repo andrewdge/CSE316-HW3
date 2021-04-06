@@ -15,7 +15,8 @@ import { UpdateListField_Transaction,
 	UpdateListItems_Transaction, 
 	ReorderItems_Transaction, 
 	ReorderItemsByCriteria_Transaction,
-	EditItem_Transaction} 				from '../../utils/jsTPS';
+	EditItem_Transaction,
+	ReorderList_Transaction} 				from '../../utils/jsTPS';
 import WInput from 'wt-frontend/build/components/winput/WInput';
 
 
@@ -32,6 +33,7 @@ const Homescreen = (props) => {
 	const [y, setY]                    = useState(false);
 	const [z, setZ]                    = useState(false);
 
+	const [ReorderList]             = useMutation(mutations.REORDER_LIST);
 	const [ReorderItemsByCriteria]  = useMutation(mutations.REORDER_ITEMS_BY_CRITERIA);
 	const [ReorderTodoItems] 		= useMutation(mutations.REORDER_ITEMS);
 	const [UpdateTodoItemField] 	= useMutation(mutations.UPDATE_ITEM_FIELD);
@@ -40,7 +42,7 @@ const Homescreen = (props) => {
 	const [DeleteTodoItem] 			= useMutation(mutations.DELETE_ITEM);
 	const [AddTodolist] 			= useMutation(mutations.ADD_TODOLIST);
 	const [AddTodoItem] 			= useMutation(mutations.ADD_ITEM);
-	const [ChangeIsSelected]         = useMutation(mutations.CHANGE_IS_SELECTED);
+	// const [ChangeIsSelected]         = useMutation(mutations.CHANGE_IS_SELECTED);
 
 	const { loading, error, data, refetch } = useQuery(GET_DB_TODOS);
 	// if(loading) { console.log(loading, 'loading'); }
@@ -165,8 +167,7 @@ const Homescreen = (props) => {
 
 	const createNewList = async (activeId) => {
 		const length = todolists.length
-		// const id = length >= 1 ? todolists[length - 1].id + 1 : 1;
-		const id = length >= 1 ? todolists.length : 0;
+		const id = length >= 1 ? todolists[length - 1].id + 1 : 0;
 		let list = {
 			_id: '',
 			id: id,
@@ -197,14 +198,15 @@ const Homescreen = (props) => {
 		pollUndo();
 		pollRedo();
 		const todo = todolists.find(todo => todo._id === _id);
-		const active = todolists.find(todo => todo.isSelected === true);
-		if (active){
-			await ChangeIsSelected({ variables: {_id: active._id, isActive: false }});
-		}
-		if (activeId !== undefined) {
-			await ChangeIsSelected({ variables: { _id: activeId, isActive: false }});
-		}
-		await ChangeIsSelected({ variables: { _id: _id, isActive: true }, refetchQueries: [{ query: GET_DB_TODOS}] });
+		// const active = todolists.find(todo => todo.isSelected === true);
+		// if (active){
+		// 	await ChangeIsSelected({ variables: {_id: active._id, isActive: false }});
+		// }
+		// if (activeId !== undefined) {
+		// 	await ChangeIsSelected({ variables: { _id: activeId, isActive: false }});
+		// }
+		// await ChangeIsSelected({ variables: { _id: _id, isActive: true }, refetchQueries: [{ query: GET_DB_TODOS}] });
+		await ReorderList({ variables: { _id: _id }, refetchQueries: [{ query: GET_DB_TODOS}] });
 		setActiveList(todo);
 	};
 
@@ -212,7 +214,7 @@ const Homescreen = (props) => {
 		props.tps.clearAllTransactions();
 		pollUndo();
 		pollRedo();
-		await ChangeIsSelected({ variables: { _id: activeId, isActive: false}, refetchQueries: [{ query: GET_DB_TODOS}]});
+		// await ChangeIsSelected({ variables: { _id: activeId, isActive: false}, refetchQueries: [{ query: GET_DB_TODOS}]});
 		setActiveList({});
 	}
 

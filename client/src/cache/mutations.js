@@ -105,8 +105,28 @@ export const UPDATE_TODOLIST_FIELD = gql`
 	}
 `;
 
-export const CHANGE_IS_SELECTED = gql`
-	mutation ChangeIsSelected($_id: String!, $isActive: Boolean!) {
-		changeIsSelected(_id: $_id, isActive: $isActive)
+// export const CHANGE_IS_SELECTED = gql`
+// 	mutation ChangeIsSelected($_id: String!, $isActive: Boolean!) {
+// 		changeIsSelected(_id: $_id, isActive: $isActive)
+// 	}
+// `;
+
+export const REORDER_LIST = gql`
+	mutation ReorderList($_id: String!) {
+		reorderList(_id: $_id) {
+			_id
+			id
+			name
+			owner
+			isSelected
+			items {
+				_id
+				id
+				description
+				due_date
+				assigned_to
+				completed
+			}
+		}
 	}
 `;

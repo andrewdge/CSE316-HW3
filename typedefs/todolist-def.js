@@ -32,7 +32,8 @@ const typeDefs = gql `
 		updateItemField(itemId: String!, _id: String!, field: String!, value: String!, flag: Int!): [Item]
 		reorderItems(itemId: String!, _id: String!, direction: Int!): [Item]
 		reorderItemsByCriteria(_id: String!, isAscending: Boolean!, criteria: String!, doUndo: String!, items: [ItemInput]! ): [Item]
-		changeIsSelected(_id: String!, isActive: Boolean!): Boolean
+		# changeIsSelected(_id: String!, isActive: Boolean!): Boolean
+		reorderList(_id: String!): [Todolist]
 	}
 	input FieldInput {
 		_id: String

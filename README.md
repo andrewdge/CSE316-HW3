@@ -1,10 +1,92 @@
 # CSE316-Spring21-HW3
 ##### Authors: Justin Fagan and Charlie Monnone
 ### Getting Started
+
+# Instructions:
+## GIT:
+
+	### Setting up a new project:
+
+		#### Cloning the repository:
+			* Create a new folder, then enter it
+			* In the folder, run ```git clone REPO_ADDR_HERE```
+			* run ```git init``` to set up git functions
+
+		#### Connecting to your remote:
+			* Create a repo on github without a readme
+			* Run ```git remote add origin REMOTE_ADDR_HERE```
+			* check with ```git remote -v```
+
+	### Committing:
+		* ```git commit -a -m "msg"``` to stage and commit all
+		* ```git add .``` to commit all, then ```git commit -m "msg"``` to commit
+
+	### Pushing:
+		* ```git push origin main``` to push to main
+
+	### Branching:
+		* ```git checkout -b BRANCH_NAME``` to create a new branch and move to it
+
+
+	* add node_modules to the .gitignore
+
+
+## Technologies:
+
+	### Frontend: React
+	### Backend: Node.js, Express.js, Apollo, Mongoose, MongoDB
+
+	### React:
+		We are using functional React here, with hooks. 
+		State is defined by const [state, changeState] = useState(initialValue);
+
+	### Node.js:
+		Backend server. We don't deal too much with it
+	
+	### Express.js:
+		Web framework built on top of Node.js, we use this a lot more to send and receive information
+
+	### Apollo:
+		GraphQL request/response server.
+
+	### Mongoose:
+		API to update MongoDB.
+
+## Project Structure:
+
+	### MongoDB:
+		Backend document based database, no order.
+
+
+	### Models:
+		Models define concrete structures for data
+	
+	### Typedefs:
+		Typedefs define structure for query/mutations
+	
+	### Resolvers:
+		Resolvers handle query/mutation logic
+	
+	### Cache:
+		Cache (query/mutation) 
+
+
+		
+
+
+	
+
+
+
+
+
+
 ##### Configuring .env
 NOTE: In a full production application, an environment file would not be stored in a git repository. This file contains information vital to the security of the application, and should not be publicly available. For the sake of ease/learning, this .env is included in the repository, but do not do this in general.
 
 The backend utilizes a .env file to store a few constants which are necessary for the application to function. Some of that information is already there, such as the port numbers for the front and backend servers, as well as the client URL. The refresh and access token secrets are random character sequences used to sign and verify JWTs used by the authentication system. These are essentially passwords that the JWT middleware uses to hash login info, to both save new users and to verify returning ones. Use a site like https://passwordsgenerator.net/, or just come up with a random string yourself for these values. There isn't a hard length requirement on the secret, but smaller keys are more easy to guess by malicious actors, so 32 characters(256 bits) are recommended.
+
+* make sure you complete ```REFRESH_TOKEN_SECRET``` and ```ACCESS_TOKEN_SECRET``` so the server works
 
 The Mongo URI requires a bit more setup. 
 1. First create a MongoDB account: https://account.mongodb.com/account/login. 

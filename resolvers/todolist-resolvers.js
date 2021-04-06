@@ -14,7 +14,9 @@ module.exports = {
 		getAllTodos: async (_, __, { req }) => {
 			const _id = new ObjectId(req.userId);
 			if(!_id) { return([])};
-			const todolists = await Todolist.find({owner: _id}).sort({ isSelected: -1});
+			// const todolists = await Todolist.find({owner: _id}).sort({ isSelected: -1});
+			// const todolists = await Todolist.find({owner: _id}).sort({ id: 1});
+			const todolists = await Todolist.find({owner: _id});
 			if(todolists) return (todolists);
 		},
 		/** 
@@ -75,7 +77,6 @@ module.exports = {
 			});
 			const updated = newList.save();
 			const objectString = objectId.toString();
-			console.log(objectString);
 			if(updated){
 				return objectString;
 			} 
@@ -210,21 +211,30 @@ module.exports = {
 
 		},
 
-		changeIsSelected: async (_, args) => {
-			const { _id, isActive } = args;
+		// changeIsSelected: async (_, args) => {
+		// 	const { _id, isActive } = args;
+		// 	const listId = new ObjectId(_id);
+		// 	const newActiveList = await Todolist.updateOne({_id: listId}, { isSelected: isActive });
+		// 	if (newActiveList) return true;
+		// 	return false;
+		// },
+
+		reorderList: async (_, args) => {
+			const { _id } = args;
 			const listId = new ObjectId(_id);
+			await Todolist.updateMany({$inc: {id: 1}});
+			await Todolist.updateOne( {_id: listId}, { id: 0 });
+			
+			const owner = (await Todolist.findOne({ _id: listId})).owner;
+			
+			const sorted = await Todolist.
+				aggregate([{ $match: { owner: owner}}]).
+				sort({ id: 1 })
+			;
 
-			// const todolists = await Todolist.find({owner: _id});
-			// for (i = 0; i < todolists.length(); i++){
-			// 	if (todolists[i].isSelected){
-			// 		let listId = todolists[i]._id;
-			// 		Todolist.updateOne({_id: listId}, { isSelected: false});
-			// 	}
-			// }
-			const newActiveList = await Todolist.updateOne({_id: listId}, { isSelected: isActive });
-			if (newActiveList) return true;
-			return false;
+			await Todolist.deleteMany({ owner: owner});
+			const replace = await Todolist.insertMany(sorted);
+			return replace;
 		}
-
 	}
 }
