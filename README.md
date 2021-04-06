@@ -7,15 +7,15 @@
 
 ### Setting up a new project:
 
-	#### Cloning the repository:
-		* Create a new folder, then enter it
-		* In the folder, run ```git clone REPO_ADDR_HERE```
-		* run ```git init``` to set up git functions
+#### Cloning the repository:
+	* Create a new folder, then enter it
+	* In the folder, run ```git clone REPO_ADDR_HERE```
+	* run ```git init``` to set up git functions
 
-	#### Connecting to your remote:
-		* Create a repo on github without a readme
-		* Run ```git remote add origin REMOTE_ADDR_HERE```
-		* check with ```git remote -v```
+#### Connecting to your remote:
+	* Create a repo on github without a readme
+	* Run ```git remote add origin REMOTE_ADDR_HERE```
+	* check with ```git remote -v```
 
 ### Committing:
 	* ```git commit -a -m "msg"``` to stage and commit all
