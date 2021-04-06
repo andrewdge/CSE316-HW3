@@ -3,72 +3,72 @@
 ### Getting Started
 
 # Instructions:
-## GIT:
+## Git:
 
-	### Setting up a new project:
+### Setting up a new project:
 
-		#### Cloning the repository:
-			* Create a new folder, then enter it
-			* In the folder, run ```git clone REPO_ADDR_HERE```
-			* run ```git init``` to set up git functions
+	#### Cloning the repository:
+		* Create a new folder, then enter it
+		* In the folder, run ```git clone REPO_ADDR_HERE```
+		* run ```git init``` to set up git functions
 
-		#### Connecting to your remote:
-			* Create a repo on github without a readme
-			* Run ```git remote add origin REMOTE_ADDR_HERE```
-			* check with ```git remote -v```
+	#### Connecting to your remote:
+		* Create a repo on github without a readme
+		* Run ```git remote add origin REMOTE_ADDR_HERE```
+		* check with ```git remote -v```
 
-	### Committing:
-		* ```git commit -a -m "msg"``` to stage and commit all
-		* ```git add .``` to commit all, then ```git commit -m "msg"``` to commit
+### Committing:
+	* ```git commit -a -m "msg"``` to stage and commit all
+	* ```git add .``` to commit all, then ```git commit -m "msg"``` to commit
 
-	### Pushing:
-		* ```git push origin main``` to push to main
+### Pushing:
+	* ```git push origin main``` to push to main
 
-	### Branching:
-		* ```git checkout -b BRANCH_NAME``` to create a new branch and move to it
+### Branching:
+	* ```git checkout -b BRANCH_NAME``` to create a new branch and move to it
 
 
-	* add node_modules to the .gitignore
+* add node_modules to the .gitignore
 
 
 ## Technologies:
 
-	### Frontend: React
-	### Backend: Node.js, Express.js, Apollo, Mongoose, MongoDB
+### Frontend: React
+### Backend: Node.js, Express.js, Apollo, Mongoose, MongoDB
 
-	### React:
-		We are using functional React here, with hooks. 
-		State is defined by const [state, changeState] = useState(initialValue);
+### React:
+	We are using functional React here, with hooks. 
+	State is defined by const [state, changeState] = useState(initialValue);
 
-	### Node.js:
-		Backend server. We don't deal too much with it
-	
-	### Express.js:
-		Web framework built on top of Node.js, we use this a lot more to send and receive information
+### Node.js:
+	Backend server. We don't deal too much with it
 
-	### Apollo:
-		GraphQL request/response server.
+### Express.js:
+	Web framework built on top of Node.js, we use this a lot more to send and receive information
 
-	### Mongoose:
-		API to update MongoDB.
+### Apollo:
+	GraphQL request/response server.
+
+### Mongoose:
+	API to update MongoDB.
 
 ## Project Structure:
 
-	### MongoDB:
-		Backend document based database, no order.
+### MongoDB:
+	Backend document based database, no order.
 
 
-	### Models:
-		Models define concrete structures for data
-	
-	### Typedefs:
-		Typedefs define structure for query/mutations
-	
-	### Resolvers:
-		Resolvers handle query/mutation logic
-	
-	### Cache:
-		Cache (query/mutation) 
+### Models:
+	Models define concrete structures for data
+
+### Typedefs:
+	Typedefs define structure for query/mutations
+
+### Resolvers:
+	Resolvers handle query/mutation logic
+
+### Cache:
+	Cache (query/mutation) 
 
 
 		
