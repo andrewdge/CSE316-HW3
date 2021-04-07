@@ -37,7 +37,6 @@ const TableHeader = (props) => {
     const assignedToReorder = () => {
         props.reorder(isAssignedToAscending, "assigned_to", props.activeList.items);
         assignedToToggleAscending(!isAssignedToAscending);
-        
     }
     
     let task = <WCol size="3">

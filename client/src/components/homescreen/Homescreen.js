@@ -56,6 +56,8 @@ const Homescreen = (props) => {
 		// }
 	}
 
+	console.log(activeList.items);
+
 	const auth = props.user === null ? false : true;
 
 	const refetchTodos = async (refetch) => {
@@ -111,7 +113,7 @@ const Homescreen = (props) => {
 			id: lastID,
 			description: 'No Description',
 			due_date: 'No Date',
-			assigned_to: /*'No User',*/  props.user._id,
+			assigned_to: 'No User', // props.user._id,
 			completed: false
 		};
 		let opcode = 1;
