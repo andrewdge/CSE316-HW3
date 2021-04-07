@@ -56,8 +56,6 @@ const Homescreen = (props) => {
 		// }
 	}
 
-	console.log(activeList.items);
-
 	const auth = props.user === null ? false : true;
 
 	const refetchTodos = async (refetch) => {
