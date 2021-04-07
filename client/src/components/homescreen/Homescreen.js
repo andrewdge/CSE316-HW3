@@ -187,6 +187,9 @@ const Homescreen = (props) => {
 		DeleteTodolist({ variables: { _id: _id }, refetchQueries: [{ query: GET_DB_TODOS }] });
 		refetch();
 		setActiveList({});
+		props.tps.clearAllTransactions();
+		pollUndo();
+		pollRedo();
 	};
 
 	const updateListField = async (_id, field, value, prev) => {
