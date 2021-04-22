@@ -7,6 +7,12 @@
 
 ### Setting up a new project:
 
+change local branch to reflect new main branch:
+git branch -m master main
+git fetch origin
+git branch -u origin/main main
+git remote set-head origin -a
+
 #### Cloning the repository:
 	* Create a new folder, then enter it
 	* In the folder, run ```git clone REPO_ADDR_HERE```
